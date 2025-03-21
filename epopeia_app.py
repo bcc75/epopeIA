@@ -62,9 +62,10 @@ Poema:"""
             max_tokens=150
         )
         poema = response.choices[0].text.strip()
-      st.markdown(f"""📝 **Poema:**  
+      st.markdown(f"""
+📝 **Poema:**  
 
-> {poema.replace("\n", "\n> ")}  
+> {poema.replace("\n", "\n> ")}
 """)
         # --- VOZ COM GTTS ---
         st.markdown("🔊 A gerar voz...")
