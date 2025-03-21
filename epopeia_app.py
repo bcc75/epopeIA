@@ -62,7 +62,7 @@ Poema:"""
             max_tokens=150
         )
         poema = response.choices[0].text.strip()
-      st.markdown(f"""
+        st.markdown(f"""
 📝 **Poema:**  
 
 > {poema.replace("\n", "\n> ")}
