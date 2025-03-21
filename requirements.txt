@@ -1,0 +1,6 @@
+streamlit
+Pillow
+openai
+gTTS
+transformers
+torch
