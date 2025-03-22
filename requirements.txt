@@ -1,6 +1,6 @@
 streamlit
-Pillow
 openai
+gtts
+Pillow
 transformers
 torch
-gTTS
