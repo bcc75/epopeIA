@@ -61,7 +61,13 @@ def gerar_audio(poema):
             return open(fp.name, "rb").read(), "mp3"
 
 # --- INTERFACE ---
-uploaded_file = st.file_uploader("📷 Carrega uma imagem", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader(
+    "📷 Seleciona ou arrasta uma imagem (JPG/PNG, até 200MB)",
+    type=["jpg", "jpeg", "png"],
+    label_visibility="visible"
+)
+st.caption("🛈 Se aparecer 'Browse files', isso depende da linguagem do navegador.")
+
 if uploaded_file and openai_key:
     image = Image.open(uploaded_file).convert("RGB")
     st.image(image, caption="Imagem carregada", use_container_width=True)
