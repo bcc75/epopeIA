@@ -3,32 +3,29 @@ import streamlit as st
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
-from google.cloud import texttospeech
+from gtts import gTTS
 import os
 import tempfile
 import torch
 import random
 
-# --- CONFIGURAÇÃO ---
 st.set_page_config(
     page_title="EpopeIA",
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
 )
 
-# HTML formatado
 st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   EpopeIA — Ver com a Alma
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong>Vê com os olhos: </strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong>Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA: </strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
-# --- BASE TEMÁTICA CAMONIANA ---
 def carregar_base(tom):
     if tom == "⚔️ Épico":
         caminho = "camoes_epico.txt"
@@ -38,31 +35,15 @@ def carregar_base(tom):
         versos = f.read().strip().split("\n\n")
     return random.sample(versos, min(3, len(versos)))
 
-# --- OPENAI ---
 openai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_key) if openai_key else None
 
-# --- GOOGLE TTS ---
-google_api_key = os.getenv("GOOGLE_TTS_API_KEY")
-os.environ["GOOGLE_API_KEY"] = google_api_key
-
-def gerar_audio_google(texto):
-    client = texttospeech.TextToSpeechClient()
-    input_text = texttospeech.SynthesisInput(text=texto)
-    voice = texttospeech.VoiceSelectionParams(
-        language_code="pt-PT", name="pt-PT-Wavenet-A"
-    )
-    audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
-
-    response = client.synthesize_speech(
-        input=input_text, voice=voice, audio_config=audio_config
-    )
-
+def gerar_audio_gtts(texto):
+    tts = gTTS(texto, lang="pt")
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as out:
-        out.write(response.audio_content)
+        tts.save(out.name)
         return out.name
 
-# --- BLIP ---
 @st.cache_resource(show_spinner=False)
 def load_blip():
     processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
@@ -77,11 +58,9 @@ def gerar_descricao(imagem):
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
 
-# --- INTERFACE ---
-uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 20MB)", type=["jpg", "jpeg", "png"])
-st.caption("-> No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
+uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
+st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
-# Escolha do tom poético
 tom = st.radio("🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"])
 
 if uploaded_file and client:
@@ -122,7 +101,7 @@ Poema:
         st.markdown(f"📝 **Poema ({tom}):**\n\n> {poema.replace('\n', '\n> ')}")
 
         with st.spinner("🎧 A gerar voz..."):
-            audio_path = gerar_audio_google(poema)
+            audio_path = gerar_audio_gtts(poema)
             st.audio(audio_path, format="audio/mp3")
             with open(audio_path, "rb") as f:
                 st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
