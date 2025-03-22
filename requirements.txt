@@ -4,3 +4,4 @@ gtts
 Pillow
 transformers
 torch
+google-cloud-texttospeech
