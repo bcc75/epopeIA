@@ -1,7 +1,6 @@
 streamlit
-openai
-gtts
 Pillow
 transformers
 torch
-google-cloud-texttospeech
+openai
+gtts
