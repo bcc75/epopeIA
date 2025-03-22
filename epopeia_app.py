@@ -10,12 +10,12 @@ import torch
 # --- CONFIGURAÇÃO ---
 st.set_page_config(
     page_title="EpopeIA",
-    page_icon="https://github.com/bcc75/epopeIA/blob/main/lcamoes2.jpeg"
+    page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
 )
 
 st.markdown("""
 <div style="display: flex; align-items: center;">
-    <img src="https://github.com/bcc75/epopeIA/blob/main/lcamoes2.jpeg" width="40" style="margin-right: 10px">
+    <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" width="40" style="margin-right: 10px">
     <h1 style='display: inline; font-size: 32px;'>EpopeIA — Ver com a Alma</h1>
 </div>
 """, unsafe_allow_html=True)
