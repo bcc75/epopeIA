@@ -1,12 +1,11 @@
-# EpopeIA 🌊📜 com ElevenLabs
+# EpopeIA 🌊📜 com Hugging Face TTS
 
-Aplicação poética assistiva com:
-- Descrição de imagem com BLIP (HuggingFace)
-- Poesia com OpenAI GPT-3.5
-- Voz realista de Camões com ElevenLabs
+App assistiva poética com:
+- Descrição de imagem via BLIP
+- Poesia por OpenAI GPT-3.5
+- Voz PT-PT com modelo Hugging Face
 
-## Secrets no Streamlit Cloud
+## Adiciona no Secrets:
 
 OPENAI_API_KEY = "sk-..."
-ELEVEN_API_KEY = "sk-..."
-ELEVEN_VOICE_ID = "0EC6k1rQ3bHauv0nv5QV"
+HF_TOKEN = "hf_..."

@@ -2,10 +2,10 @@ import streamlit as st
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
-from elevenlabs import generate, play, save, set_api_key
 import os
 import tempfile
 import torch
+import requests
 
 # --- CONFIGURAÇÃO ---
 st.set_page_config(page_title="EpopeIA", page_icon="🌊")
@@ -13,19 +13,12 @@ st.title("🌊 EpopeIA — Ver com a Alma")
 
 # --- CHAVES DE API ---
 openai_key = os.getenv("OPENAI_API_KEY")
-eleven_key = os.getenv("ELEVEN_API_KEY")
-voice_id = os.getenv("ELEVEN_VOICE_ID")
+hf_token = os.getenv("HF_TOKEN")
 
 if not openai_key:
     st.error("❌ Erro: A chave da OpenAI não está configurada.")
 else:
     client = OpenAI(api_key=openai_key)
-
-# --- INICIAR ElevenLabs ---
-if eleven_key:
-    set_api_key(eleven_key)
-else:
-    st.warning("⚠️ A voz do Camões está sem API Key da ElevenLabs.")
 
 # --- CARREGAR BLIP ---
 @st.cache_resource(show_spinner=False)
@@ -42,6 +35,22 @@ def gerar_descricao(imagem):
     with torch.no_grad():
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
+
+# --- GERAR VOZ COM HUGGING FACE ---
+def gerar_audio_huggingface(texto):
+    api_url = "https://api-inference.huggingface.co/models/flax-community/vits-pt-cv-ft"
+    headers = {
+        "Authorization": f"Bearer {hf_token}"
+    }
+    payload = {
+        "inputs": texto
+    }
+    response = requests.post(api_url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return response.content
+    else:
+        st.warning("⚠️ Erro ao gerar voz com Hugging Face.")
+        return None
 
 # --- INTERFACE ---
 uploaded_file = st.file_uploader("📷 Carrega uma imagem", type=["jpg", "jpeg", "png"])
@@ -76,11 +85,10 @@ Poema:"""
         > {poema.replace("\n", "\n> ")}
         """)
 
-        if eleven_key and voice_id:
-            with st.spinner("🎙️ A dar voz ao poema..."):
-                audio = generate(text=poema, voice=voice_id, model="eleven_multilingual_v2")
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
-                    save(audio, fp.name)
-                    st.audio(fp.name, format="audio/mp3")
-        else:
-            st.info("ℹ️ Voz não disponível. Verifica a chave ou o ID da voz.")
+        # --- AUDIO HF ---
+        with st.spinner("🎙️ A declamar com voz..."):
+            audio = gerar_audio_huggingface(poema)
+            if audio:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as fp:
+                    fp.write(audio)
+                    st.audio(fp.name, format="audio/wav")
