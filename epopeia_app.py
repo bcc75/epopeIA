@@ -75,7 +75,7 @@ def gerar_descricao(imagem):
     return processor.decode(out[0], skip_special_tokens=True)
 
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
-st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
+st.caption("* No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
 tom = st.radio("🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"])
 
