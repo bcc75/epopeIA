@@ -1,12 +1,10 @@
-# EpopeIA 🌊📜 (em português 🇵🇹)
+# EpopeIA 📜 com voz gTTS
 
 App poética assistiva com:
 - Descrição automática de imagens com BLIP
-- Poesia gerada com OpenAI GPT-3.5
-- Voz PT-PT com Hugging Face (e fallback para gTTS)
-- Interface 100% em português
+- Geração de poesia camoniana com OpenAI
+- Voz PT-PT com gTTS (sem Hugging Face)
 
-## Configurar no Streamlit Cloud
+## Secrets necessários:
 
 OPENAI_API_KEY = "sk-..."
-HF_TOKEN = "hf_..."

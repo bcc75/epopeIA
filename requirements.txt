@@ -3,5 +3,4 @@ Pillow
 openai
 transformers
 torch
-requests
 gTTS

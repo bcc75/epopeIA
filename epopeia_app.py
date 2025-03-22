@@ -6,7 +6,6 @@ from gtts import gTTS
 import os
 import tempfile
 import torch
-import requests
 
 # --- CONFIGURAÇÃO ---
 st.set_page_config(
@@ -14,9 +13,15 @@ st.set_page_config(
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes.webp"
 )
 
-# --- CHAVES DE API ---
+st.markdown("""
+<div style="display: flex; align-items: center;">
+    <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes.webp" width="40" style="margin-right: 10px">
+    <h1 style='display: inline; font-size: 32px;'>EpopeIA — Ver com a Alma</h1>
+</div>
+""", unsafe_allow_html=True)
+
+# --- CHAVE DA OPENAI ---
 openai_key = os.getenv("OPENAI_API_KEY")
-hf_token = os.getenv("HF_TOKEN")
 
 if not openai_key:
     st.error("❌ Erro: A chave da OpenAI não está configurada.")
@@ -39,28 +44,12 @@ def gerar_descricao(imagem):
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
 
-# --- GERAR VOZ COM HUGGING FACE + FALLBACK GTTS ---
+# --- GERAR VOZ COM gTTS ---
 def gerar_audio(poema):
-    api_url = "https://api-inference.huggingface.co/models/flax-community/vits-pt-cv-ft"
-    headers = {"Authorization": f"Bearer {hf_token}"}
-    payload = {"inputs": poema}
-
-    try:
-        response = requests.post(api_url, headers=headers, json=payload, timeout=60)
-        if response.status_code == 200 and response.content:
-            return response.content, "wav"
-        else:
-            st.warning("⚠️ Hugging Face falhou. A usar gTTS.")
-            tts = gTTS(text=poema, lang='pt', tld='pt')
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
-                tts.save(fp.name)
-                return open(fp.name, "rb").read(), "mp3"
-    except Exception as e:
-        st.warning("⚠️ Erro com Hugging Face. A usar gTTS.")
-        tts = gTTS(text=poema, lang='pt', tld='pt')
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
-            tts.save(fp.name)
-            return open(fp.name, "rb").read(), "mp3"
+    tts = gTTS(text=poema, lang='pt', tld='pt')
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+        tts.save(fp.name)
+        return fp.name
 
 # --- INTERFACE ---
 uploaded_file = st.file_uploader(
@@ -78,7 +67,9 @@ if uploaded_file and openai_key:
         descricao = gerar_descricao(image)
         st.success(f"🧠 Descrição gerada: *{descricao}*")
 
-    prompt = f"""Transforma a seguinte descrição numa poesia breve, bela e clássica, como se Camões a visse:
+    prompt = f"""Imagina que és Luís de Camões e olhas esta cena com olhos de poeta do século XVI.
+Transfigura a seguinte descrição num poema breve, com alma épica, linguagem clássica, metáforas náuticas e elevação poética.
+Usa vocabulário do século XVI e estruturas próprias da poesia portuguesa renascentista.
 
 Descrição: {descricao}
 
@@ -88,7 +79,7 @@ Poema:"""
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Escreves como um poeta clássico português, com tom elevado e influência camoniana."},
+                {"role": "system", "content": "Escreves como Luís de Camões. Usa vocabulário do século XVI, estrutura poética clássica portuguesa, metáforas náuticas, e um tom épico e elevado. Podes usar inversões sintácticas e construções arcaicas, mas mantém clareza."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -102,7 +93,5 @@ Poema:"""
         """)
 
         with st.spinner("🎙️ A gerar voz..."):
-            audio_bytes, fmt = gerar_audio(poema)
-            with tempfile.NamedTemporaryFile(delete=False, suffix=f".{fmt}") as fp:
-                fp.write(audio_bytes)
-                st.audio(fp.name, format=f"audio/{fmt}")
+            audio_path = gerar_audio(poema)
+            st.audio(audio_path, format="audio/mp3")
