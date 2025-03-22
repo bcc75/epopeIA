@@ -20,10 +20,10 @@ st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; m
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong> Vê com os olhos:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong> Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong> Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -37,6 +37,21 @@ def carregar_base(tom):
 
 openai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_key) if openai_key else None
+
+def traduzir_descricao(desc):
+    if not desc:
+        return ""
+    if any(palavra in desc.lower() for palavra in ["the", "photo", "image", "man", "woman", "sunset", "sea", "sky"]):
+        traducao = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "Traduz para português de Portugal, de forma natural e literária."},
+                {"role": "user", "content": desc}
+            ],
+            temperature=0.3
+        )
+        return traducao.choices[0].message.content.strip()
+    return desc
 
 def gerar_audio_gtts(texto):
     tts = gTTS(texto, lang="pt", tld="pt")
@@ -68,7 +83,8 @@ if uploaded_file and client:
     st.image(image, caption="Imagem carregada", use_container_width=True)
 
     with st.spinner("🧠 A interpretar a imagem..."):
-        descricao = gerar_descricao(image)
+        descricao_ingles = gerar_descricao(image)
+        descricao = traduzir_descricao(descricao_ingles)
         st.success(f"Descrição: *{descricao}*")
 
     excertos = carregar_base(tom)
@@ -98,8 +114,6 @@ Poema:
             max_tokens=300
         )
         poema = response.choices[0].message.content.strip()
-
-        # ✅ FORMATAR poema com quebras linha a linha
         versos_formatados = "\n".join([f"> {linha.strip()}" for linha in poema.splitlines() if linha.strip()])
         st.markdown(f"📝 **Poema ({tom}):**\n\n{versos_formatados}")
 
