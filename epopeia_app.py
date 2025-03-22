@@ -13,7 +13,6 @@ st.set_page_config(
     page_title="EpopeIA",
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes.webp"
 )
-st.title("🌊 EpopeIA — Ver com a Alma")
 
 # --- CHAVES DE API ---
 openai_key = os.getenv("OPENAI_API_KEY")
