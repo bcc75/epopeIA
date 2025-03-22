@@ -39,7 +39,7 @@ openai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_key) if openai_key else None
 
 def gerar_audio_gtts(texto):
-    tts = gTTS(texto, lang="pt")
+    tts = gTTS(texto, lang="pt", tld="pt")
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as out:
         tts.save(out.name)
         return out.name
@@ -58,6 +58,19 @@ def gerar_descricao(imagem):
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
 
+def traduzir_descricao(desc):
+    prompt_traduzir = f"Traduz para português europeu este texto curto: {desc}"
+    try:
+        resp = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt_traduzir}],
+            temperature=0,
+            max_tokens=60
+        )
+        return resp.choices[0].message.content.strip()
+    except:
+        return desc  # fallback se falhar
+
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
 st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
@@ -69,7 +82,8 @@ if uploaded_file and client:
 
     with st.spinner("🧠 A interpretar a imagem..."):
         descricao = gerar_descricao(image)
-        st.success(f"Descrição: *{descricao}*")
+        descricao_pt = traduzir_descricao(descricao)
+        st.success(f"Descrição: *{descricao_pt}*")
 
     excertos = carregar_base(tom)
     exemplos = "\n\n".join(excertos)
@@ -82,26 +96,29 @@ Inspira-te nestes exemplos reais do teu estilo:
 {exemplos}
 
 Agora, escreve um poema inspirado na seguinte descrição:
-{descricao}
+{descricao_pt}
 
 Poema:
 """
 
-    with st.spinner("✍️ A gerar poema camoniano..."):
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "Escreve como Luís de Camões. Usa vocabulário do século XVI, metáforas clássicas, ritmo lírico português. Adapta o tom consoante o pedido."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=300
-        )
-        poema = response.choices[0].message.content.strip()
-        st.markdown(f"📝 **Poema ({tom}):**\n\n> {poema.replace('\n', '\n> ')}")
+    if len(prompt) < 3000:
+        with st.spinner("✍️ A gerar poema camoniano..."):
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "Escreve como Luís de Camões. Usa vocabulário do século XVI, metáforas clássicas, ritmo lírico português. Adapta o tom consoante o pedido."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+                max_tokens=300
+            )
+            poema = response.choices[0].message.content.strip()
+            st.markdown(f"📝 **Poema ({tom}):**\n\n> {poema.replace('\n', '\n> ')}")
 
-        with st.spinner("🎧 A gerar voz..."):
-            audio_path = gerar_audio_gtts(poema)
-            st.audio(audio_path, format="audio/mp3")
-            with open(audio_path, "rb") as f:
-                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+            with st.spinner("🎧 A gerar voz..."):
+                audio_path = gerar_audio_gtts(poema)
+                st.audio(audio_path, format="audio/mp3")
+                with open(audio_path, "rb") as f:
+                    st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+    else:
+        st.error("❌ O prompt é demasiado longo para ser processado.")
