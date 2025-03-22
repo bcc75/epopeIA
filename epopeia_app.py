@@ -16,14 +16,14 @@ st.set_page_config(
 
 st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
-  <i>EpopeIA</i> — Ver com a Alma
+  EpopeIA — Ver com a Alma
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong>Vê com os olhos:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong>Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -41,7 +41,8 @@ client = OpenAI(api_key=openai_key) if openai_key else None
 def traduzir_descricao(desc):
     if not desc:
         return ""
-    if any(palavra in desc.lower() for palavra in ["the", "photo", "image", "man", "woman", "sunset", "sea", "sky"]):
+    palavras_ingles = ["sun", "sea", "photo", "image", "man", "woman", "sky", "tree", "people", "walking", "road"]
+    if any(p in desc.lower() for p in palavras_ingles):
         traducao = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -97,7 +98,9 @@ Inspira-te nestes exemplos reais do teu estilo:
 
 {exemplos}
 
-Agora, escreve um poema inspirado na seguinte descrição:
+Agora, escreve um poema com um verso por linha, e com quebras de linha entre estrofes. Usa linguagem clássica, rica, com ritmo, e vocabulário do século XVI.
+
+Descrição:
 {descricao}
 
 Poema:
@@ -111,11 +114,11 @@ Poema:
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=300
+            max_tokens=400
         )
         poema = response.choices[0].message.content.strip()
-        versos_formatados = "\n".join([f"> {linha.strip()}" for linha in poema.splitlines() if linha.strip()])
-        st.markdown(f"📝 **Poema ({tom}):**\n\n{versos_formatados}")
+        st.markdown(f"📝 **Poema ({tom}):**")
+        st.text(poema)
 
         with st.spinner("🎧 A gerar voz..."):
             audio_path = gerar_audio_gtts(poema)
