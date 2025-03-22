@@ -78,11 +78,11 @@ def gerar_descricao(imagem):
     return processor.decode(out[0], skip_special_tokens=True)
 
 # --- INTERFACE ---
-uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 20MB)", type=["jpg", "jpeg", "png"])
 st.caption("-> No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
 # Escolha do tom poético
-tom = st.radio("🎭 <strong>Escolhe o tom do poema:</strong>", ["⚔️ Épico", "🌹 Romântico"])
+tom = st.radio("🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"])
 
 if uploaded_file and client:
     image = Image.open(uploaded_file).convert("RGB")
