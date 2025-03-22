@@ -1,19 +1,12 @@
-# EpopeIA 🌊📜
+# EpopeIA 🌊📜 com ElevenLabs
 
-Aplicação assistiva e poética com IA, inspirada nos 500 anos de Camões.
+Aplicação poética assistiva com:
+- Descrição de imagem com BLIP (HuggingFace)
+- Poesia com OpenAI GPT-3.5
+- Voz realista de Camões com ElevenLabs
 
-## Funcionalidades
-
-- Interpretação automática de imagens com BLIP
-- Geração de poesia com OpenAI (API v1)
-- Voz PT-PT com gTTS
-
-## Instruções para Streamlit Cloud
-
-1. Adiciona as chaves em Settings > Secrets:
+## Secrets no Streamlit Cloud
 
 OPENAI_API_KEY = "sk-..."
-
-2. Faz deploy a partir deste repositório.
-
-3. Diverte-te com Camões em IA!
+ELEVEN_API_KEY = "sk-..."
+ELEVEN_VOICE_ID = "0EC6k1rQ3bHauv0nv5QV"
