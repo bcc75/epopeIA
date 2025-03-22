@@ -1,11 +1,11 @@
-# EpopeIA 🌊📜 com Hugging Face TTS
+# EpopeIA 🌊📜 com Hugging Face + gTTS
 
-App assistiva poética com:
+App poética assistiva com:
 - Descrição de imagem via BLIP
 - Poesia por OpenAI GPT-3.5
-- Voz PT-PT com modelo Hugging Face
+- Voz PT-PT via Hugging Face com fallback automático para gTTS
 
-## Adiciona no Secrets:
+## Secrets necessários:
 
 OPENAI_API_KEY = "sk-..."
 HF_TOKEN = "hf_..."

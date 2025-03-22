@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
+from gtts import gTTS
 import os
 import tempfile
 import torch
@@ -36,21 +37,28 @@ def gerar_descricao(imagem):
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
 
-# --- GERAR VOZ COM HUGGING FACE ---
-def gerar_audio_huggingface(texto):
+# --- GERAR VOZ COM HUGGING FACE + FALLBACK GTTS ---
+def gerar_audio(poema):
     api_url = "https://api-inference.huggingface.co/models/flax-community/vits-pt-cv-ft"
-    headers = {
-        "Authorization": f"Bearer {hf_token}"
-    }
-    payload = {
-        "inputs": texto
-    }
-    response = requests.post(api_url, headers=headers, json=payload)
-    if response.status_code == 200:
-        return response.content
-    else:
-        st.warning("⚠️ Erro ao gerar voz com Hugging Face.")
-        return None
+    headers = {"Authorization": f"Bearer {hf_token}"}
+    payload = {"inputs": poema}
+
+    try:
+        response = requests.post(api_url, headers=headers, json=payload, timeout=60)
+        if response.status_code == 200 and response.content:
+            return response.content, "wav"
+        else:
+            st.warning("⚠️ Hugging Face falhou. A usar gTTS.")
+            tts = gTTS(text=poema, lang='pt', tld='pt')
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+                tts.save(fp.name)
+                return open(fp.name, "rb").read(), "mp3"
+    except Exception as e:
+        st.warning("⚠️ Erro com Hugging Face. A usar gTTS.")
+        tts = gTTS(text=poema, lang='pt', tld='pt')
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+            tts.save(fp.name)
+            return open(fp.name, "rb").read(), "mp3"
 
 # --- INTERFACE ---
 uploaded_file = st.file_uploader("📷 Carrega uma imagem", type=["jpg", "jpeg", "png"])
@@ -85,10 +93,8 @@ Poema:"""
         > {poema.replace("\n", "\n> ")}
         """)
 
-        # --- AUDIO HF ---
-        with st.spinner("🎙️ A declamar com voz..."):
-            audio = gerar_audio_huggingface(poema)
-            if audio:
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as fp:
-                    fp.write(audio)
-                    st.audio(fp.name, format="audio/wav")
+        with st.spinner("🎙️ A gerar voz..."):
+            audio_bytes, fmt = gerar_audio(poema)
+            with tempfile.NamedTemporaryFile(delete=False, suffix=f".{fmt}") as fp:
+                fp.write(audio_bytes)
+                st.audio(fp.name, format=f"audio/{fmt}")
