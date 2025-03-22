@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from gtts import gTTS
-import openai
+from openai import OpenAI
 import os
 import tempfile
 import torch
@@ -16,7 +16,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     st.error("❌ Erro: A chave da OpenAI não está configurada nos Secrets do Streamlit.")
 else:
-    openai.api_key = api_key
+    client = OpenAI(api_key=api_key)
 
 # --- CARREGAR BLIP ---
 @st.cache_resource(show_spinner=False)
@@ -39,7 +39,7 @@ def gerar_descricao(imagem):
 uploaded_file = st.file_uploader("📷 Carrega uma imagem", type=["jpg", "jpeg", "png"])
 if uploaded_file and api_key:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Imagem carregada", use_column_width=True)
+    st.image(image, caption="Imagem carregada", use_container_width=True)
 
     st.markdown("🔍 A interpretar a imagem com IA...")
 
@@ -55,18 +55,23 @@ Descrição: {descricao}
 
 Poema:"""
 
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "Escreves como um poeta clássico português, com tom elevado e influência camoniana."},
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7,
             max_tokens=150
         )
-        poema = response.choices[0].text.strip()
-        st.markdown(f"""
-📝 **Poema:**  
+        poema = response.choices[0].message.content.strip()
 
-> {poema.replace("\n", "\n> ")}
-""")
+        st.markdown(f"""
+        📝 **Poema:**  
+
+        > {poema.replace("\n", "\n> ")}
+        """)
+
         # --- VOZ COM GTTS ---
         st.markdown("🔊 A gerar voz...")
         tts = gTTS(poema, lang='pt')

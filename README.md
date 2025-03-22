@@ -1,23 +1,19 @@
 # EpopeIA 🌊📜
 
-Uma aplicação assistiva e poética baseada em IA, inspirada nos 500 anos de Luís de Camões.
+Aplicação assistiva e poética com IA, inspirada nos 500 anos de Camões.
 
 ## Funcionalidades
-- **Interpretação automática de imagens** com **BLIP do Hugging Face**
-- **Geração de poesia em estilo camoniano** com OpenAI
-- **Leitura do poema com voz PT-PT** via gTTS (Google Text-to-Speech)
 
-## Como correr no Streamlit Cloud
+- Interpretação automática de imagens com BLIP
+- Geração de poesia com OpenAI (API v1)
+- Voz PT-PT com gTTS
 
-1. **Adiciona as chaves no Streamlit Cloud** em **Settings > Secrets**:
+## Instruções para Streamlit Cloud
 
-```
-OPENAI_API_KEY="sk-..."
-```
+1. Adiciona as chaves em Settings > Secrets:
 
-2. **Faz deploy no Streamlit Cloud**
-   - Sobe os ficheiros para o GitHub
-   - Liga o repositório ao [Streamlit Cloud](https://share.streamlit.io/)
-   - Define `epopeia_app.py` como ficheiro principal
+OPENAI_API_KEY = "sk-..."
 
-3. **Executa e partilha!**
+2. Faz deploy a partir deste repositório.
+
+3. Diverte-te com Camões em IA!
