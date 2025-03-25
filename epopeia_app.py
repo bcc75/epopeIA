@@ -1,5 +1,6 @@
+
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
 from gtts import gTTS
@@ -19,10 +20,10 @@ st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; m
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong>Vê com os olhos:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong>Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -129,26 +130,19 @@ Poema:
             with open(audio_path, "rb") as f:
                 st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
 
-        # Criar imagem com poema
-        def gerar_imagem_com_poema(imagem_path, poema_texto):
-            imagem_original = Image.open(imagem_path)
-            imagem_original.thumbnail((250, 250))
-            largura, altura = 400, 500
-            fundo = Image.new("RGB", (largura, altura), (245, 222, 179))
-            x_offset = (largura - imagem_original.width) // 2
-            fundo.paste(imagem_original, (x_offset, 20))
-            draw = ImageDraw.Draw(fundo)
-            font_titulo = ImageFont.load_default()
-            font_poema = ImageFont.load_default()
-            draw.text((x_offset, 280), "Poema Inspirado", fill=(139, 69, 19), font=font_titulo)
-            linhas = poema_texto.split("\n")
-            y_text = 320
-            for linha in linhas:
-                draw.text((50, y_text), linha, fill=(80, 40, 20), font=font_poema)
-                y_text += 25
-            caminho_saida = "poema_imagem.png"
-            fundo.save(caminho_saida)
-            return caminho_saida
+        # Criar botão de download do poema em texto
+        def gerar_txt_poema(poema_texto):
+            caminho_txt = "poema.txt"
+            with open(caminho_txt, "w", encoding="utf-8") as f:
+                f.write("EpopeIA — Ver com a Alma\n")
+                f.write("=" * 30 + "\n\n")
+                f.write(poema_texto + "\n")
+            return caminho_txt
 
-        imagem_final = gerar_imagem_com_poema(imagem_path, poema)
-        st.download_button("📸 Descarregar imagem com poema", open(imagem_final, "rb"), file_name="poema_imagem.png", mime="image/png")
+        txt_final = gerar_txt_poema(poema)
+        st.download_button("📝 Descarregar poema em texto", open(txt_final, "rb"), file_name="poema.txt", mime="text/plain")
+
+        # Botão para sugerir partilha via captura de ecrã
+        st.markdown("""
+        📲 Para partilhar este poema, faz uma captura de ecrã no teu dispositivo!
+        """)
