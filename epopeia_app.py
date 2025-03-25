@@ -1,6 +1,6 @@
 
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
 from gtts import gTTS
@@ -74,38 +74,6 @@ def gerar_descricao(imagem):
         out = model.generate(**inputs)
     return processor.decode(out[0], skip_special_tokens=True)
 
-def gerar_imagem_poema(poema, imagem_original):
-    thumbnail_size = (250, 250)
-    largura = 800
-    altura = 600
-    cor_fundo = (240, 224, 200)
-
-    imagem_final = Image.new("RGB", (largura, altura), cor_fundo)
-    draw = ImageDraw.Draw(imagem_final)
-
-    if imagem_original:
-        imagem_original = imagem_original.resize(thumbnail_size)
-        imagem_final.paste(imagem_original, (275, 20))
-
-    fonte_path = "arial.ttf"
-    try:
-        fonte = ImageFont.truetype(fonte_path, 28)
-    except:
-        fonte = ImageFont.load_default()
-
-    x_texto = 50
-    y_texto = 300
-    draw.text((x_texto, y_texto - 50), "📜 Poema Inspirado", fill=(0, 0, 0), font=fonte)
-
-    for linha in poema.split("\n"):
-        draw.text((x_texto, y_texto), linha, fill=(0, 0, 0), font=fonte)
-        y_texto += 40
-
-    caminho_imagem_poema = "poema_gerado.png"
-    imagem_final.save(caminho_imagem_poema)
-
-    return caminho_imagem_poema
-
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
 st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
@@ -117,7 +85,7 @@ if uploaded_file and client:
         f.write(uploaded_file.getbuffer())
 
     image = Image.open(imagem_path).convert("RGB")
-    st.image(image, caption="Imagem carregada", use_column_width=True)
+    st.image(image, caption="Imagem carregada", use_container_width=True)
 
     with st.spinner("🧠 A interpretar a imagem..."):
         descricao_ingles = gerar_descricao(image)
@@ -153,11 +121,28 @@ Poema:
             max_tokens=400
         )
         poema = response.choices[0].message.content.strip()
-
         st.markdown(f"📝 **Poema ({tom}):**")
         st.text(poema)
 
-        imagem_poema_path = gerar_imagem_poema(poema, image)
-        st.image(imagem_poema_path, caption="Poema Gerado", use_column_width=True)
-        with open(imagem_poema_path, "rb") as img_file:
-            st.download_button("⬇️ Descarregar Imagem do Poema", img_file, file_name="poema_imagem.png")
+        with st.spinner("🎧 A gerar voz..."):
+            audio_path = gerar_audio_gtts(poema)
+            st.audio(audio_path, format="audio/mp3")
+            with open(audio_path, "rb") as f:
+                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+
+        # Criar botão de download do poema em texto
+        def gerar_txt_poema(poema_texto):
+            caminho_txt = "poema.txt"
+            with open(caminho_txt, "w", encoding="utf-8") as f:
+                f.write("EpopeIA — Ver com a Alma\n")
+                f.write("=" * 30 + "\n\n")
+                f.write(poema_texto + "\n")
+            return caminho_txt
+
+        txt_final = gerar_txt_poema(poema)
+        st.download_button("📝 Descarregar poema em texto", open(txt_final, "rb"), file_name="poema.txt", mime="text/plain")
+
+        # Botão para sugerir partilha via captura de ecrã
+        st.markdown("""
+        📲 Para partilhar este poema, faz uma captura de ecrã no teu dispositivo!
+        """)
