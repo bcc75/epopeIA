@@ -141,8 +141,3 @@ Poema:
 
         txt_final = gerar_txt_poema(poema)
         st.download_button("📝 Descarregar poema em texto", open(txt_final, "rb"), file_name="poema.txt", mime="text/plain")
-
-        # Botão para sugerir partilha via captura de ecrã
-        st.markdown("""
-        📲 Para partilhar este poema, faz uma captura de ecrã no teu dispositivo!
-        """)
