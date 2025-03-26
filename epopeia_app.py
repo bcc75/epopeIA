@@ -29,6 +29,7 @@ st.markdown(
     ''',
     unsafe_allow_html=True
 )
+
 st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   EpopeIA — Ver com a Alma
@@ -160,3 +161,4 @@ Poema:
             st.audio(audio_path, format="audio/mp3")
             with open(audio_path, "rb") as f:
                 st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+    st.download_button("📝 Descarregar poema em texto", open(txt_final, "rb"), file_name="poema.txt", mime="text/plain")
