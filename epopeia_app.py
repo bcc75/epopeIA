@@ -15,6 +15,20 @@ st.set_page_config(
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
 )
 
+# Adicionando CSS para definir o fundo da página como um pergaminho
+st.markdown(
+    f'''
+    <style>
+        body {{
+            background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/fundo.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   EpopeIA — Ver com a Alma
@@ -87,7 +101,7 @@ def gerar_titulo_poema(descricao):
     return resposta_titulo.choices[0].message.content.strip()
 
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
-st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
+st.caption("-> No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
 tom = st.radio("🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"])
 
