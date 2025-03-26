@@ -152,6 +152,19 @@ Poema:
 
         data_hora = datetime.now().strftime("%d/%m/%Y %H:%M")
 
+        # Função para gerar ficheiro TXT com o poema
+def gerar_txt_poema(poema_texto):
+    caminho_txt = "poema.txt"
+    with open(caminho_txt, "w", encoding="utf-8") as f:
+        f.write("EpopeIA — Ver com a Alma\n")
+        f.write("=" * 30 + "\n\n")
+        f.write(poema_texto + "\n")
+    return caminho_txt
+
+if uploaded_file and 'poema' in locals():
+    imagem_final = gerar_imagem_com_poema(uploaded_file.name, poema)
+    txt_final = gerar_txt_poema(poema)
+
         st.markdown(f"📜 **{titulo_poema}**")
         st.text(poema)
         st.markdown(f"*epopeIA — {data_hora}*")
