@@ -36,10 +36,10 @@ st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; m
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong>Vê com os olhos:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong>Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong>Poesia assistiva:</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -71,18 +71,16 @@ def gerar_descricao(imagem):
 def traduzir_descricao(desc):
     if not desc:
         return ""
-    palavras_ingles = ["sun", "sea", "photo", "image", "man", "woman", "sky", "tree", "people", "walking", "road"]
-    if any(p in desc.lower() for p in palavras_ingles):
-        traducao = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "Traduz para português de Portugal, de forma natural e literária."},
-                {"role": "user", "content": desc}
-            ],
-            temperature=0.3
-        )
-        return traducao.choices[0].message.content.strip()
-    return desc
+    # Alterado para garantir que qualquer descrição será traduzida
+    traducao = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "Traduz esta descrição para português de Portugal, de forma natural e literária."},
+            {"role": "user", "content": desc}
+        ],
+        temperature=0.3
+    )
+    return traducao.choices[0].message.content.strip()
 
 def gerar_titulo_poema(descricao):
     prompt_titulo = f"Cria um título épico e poético, ao estilo de Camões, para um poema baseado nesta descrição: {descricao}"
@@ -153,17 +151,17 @@ Poema:
         st.text(poema)
         st.markdown(f"*epopeIA — {data_hora}*")
 
- # Botão para descarregar poema em texto
+        # Gerar e permitir descarregar o áudio
+        with st.spinner("🎧 A gerar voz..."):
+            audio_path = gerar_audio_gtts(poema)
+            st.audio(audio_path, format="audio/mp3")
+            with open(audio_path, "rb") as f:
+                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+
+        # Gerar e permitir descarregar o texto do poema
         caminho_txt = "poema.txt"
         with open(caminho_txt, "w", encoding="utf-8") as f:
             f.write(f"{titulo_poema}\n\n{poema}\n\nepopeIA — {data_hora}")
         
         with open(caminho_txt, "rb") as f:
             st.download_button("📜 Descarregar poema em texto", f, file_name="poema.txt", mime="text/plain")
-
-        
-        with st.spinner("🎧 A gerar voz..."):
-            audio_path = gerar_audio_gtts(poema)
-            st.audio(audio_path, format="audio/mp3")
-            with open(audio_path, "rb") as f:
-                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
