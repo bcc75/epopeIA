@@ -36,10 +36,10 @@ st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; m
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Helvetica, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p>📸 <strong>Vê com os olhos:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
-  <p>✍️ <strong>Ouve com a alma:</strong> a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
-  <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
+  <p>📸 <strong>Vê com os olhos</strong> — carrega uma imagem e deixa que a inteligência artificial a interprete.</p>
+  <p>✍️ <strong>Ouve com a alma</strong> — a descrição torna-se um poema ao estilo de <em>Camões</em>.</p>
+  <p>📜 <strong>Poesia assistiva</strong> — uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p>⛵ <strong>EpopeIA</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -53,6 +53,20 @@ def carregar_base(tom):
 
 openai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_key) if openai_key else None
+
+@st.cache_resource(show_spinner=False)
+def load_blip():
+    processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to("cuda" if torch.cuda.is_available() else "cpu")
+    return processor, model
+
+processor, model = load_blip()
+
+def gerar_descricao(imagem):
+    inputs = processor(imagem, return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
+    with torch.no_grad():
+        out = model.generate(**inputs)
+    return processor.decode(out[0], skip_special_tokens=True)
 
 def traduzir_descricao(desc):
     if not desc:
@@ -82,16 +96,12 @@ def gerar_titulo_poema(descricao):
     return resposta_titulo.choices[0].message.content.strip()
 
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
-st.caption("-> No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
+st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
 tom = st.radio("🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"])
 
 if uploaded_file and client:
-    imagem_path = "imagem_carregada.png"
-    with open(imagem_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-
-    image = Image.open(imagem_path).convert("RGB")
+    image = Image.open(uploaded_file).convert("RGB")
     st.image(image, caption="Imagem carregada", use_container_width=True)
 
     with st.spinner("🧠 A interpretar a imagem..."):
