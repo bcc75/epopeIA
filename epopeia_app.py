@@ -95,6 +95,13 @@ def gerar_titulo_poema(descricao):
     )
     return resposta_titulo.choices[0].message.content.strip()
 
+# Função para gerar áudio com gTTS
+def gerar_audio_gtts(texto):
+    tts = gTTS(texto, lang="pt", tld="pt")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as out:
+        tts.save(out.name)
+        return out.name
+
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
 st.caption("🛈 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
 
@@ -146,10 +153,8 @@ Poema:
         st.text(poema)
         st.markdown(f"*epopeIA — {data_hora}*")
 
-        # Botão para descarregar poema em texto
-        caminho_txt = "poema.txt"
-        with open(caminho_txt, "w", encoding="utf-8") as f:
-            f.write(f"{titulo_poema}\n\n{poema}\n\nepopeIA — {data_hora}")
-        
-        with open(caminho_txt, "rb") as f:
-            st.download_button("📜 Descarregar poema em texto", f, file_name="poema.txt", mime="text/plain")
+        with st.spinner("🎧 A gerar voz..."):
+            audio_path = gerar_audio_gtts(poema)
+            st.audio(audio_path, format="audio/mp3")
+            with open(audio_path, "rb") as f:
+                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
