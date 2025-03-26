@@ -146,12 +146,6 @@ Poema:
         st.text(poema)
         st.markdown(f"*epopeIA — {data_hora}*")
 
-        with st.spinner("🎧 A gerar voz..."):
-            audio_path = gTTS(poema, lang="pt", tld="pt").save("poema.mp3")
-            st.audio("poema.mp3", format="audio/mp3")
-            with open("poema.mp3", "rb") as f:
-                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
-
         # Botão para descarregar poema em texto
         caminho_txt = "poema.txt"
         with open(caminho_txt, "w", encoding="utf-8") as f:
