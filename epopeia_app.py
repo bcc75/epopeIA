@@ -28,7 +28,7 @@ st.markdown("""
             background-attachment: fixed;
         }
         div[class*='stRadio'] label {
-            font-size: 1.3rem !important;
+            font-size: 2rem !important;
             font-weight: 600;
         }
     </style>
