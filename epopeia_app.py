@@ -1,7 +1,3 @@
-
-# EpopeIA — Ver com a Alma
-# Código corrigido com fonte maior no radio button
-
 import streamlit as st
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -18,7 +14,7 @@ st.set_page_config(
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
 )
 
-# Adicionar CSS personalizado
+# CSS para fundo e radio buttons
 st.markdown("""
     <style>
         body {
@@ -28,8 +24,8 @@ st.markdown("""
             background-attachment: fixed;
         }
         div[class*='stRadio'] label {
-            font-size: 1.1rem !important;
-            font-weight: 600;
+            font-size: 1.3rem !important;
+            font-weight: 700;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -46,6 +42,7 @@ st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; m
   <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
   <p>⛵ <strong>EpopeIA:</strong> navega entre pixels e versos, com a alma lusitana sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
+
 def carregar_base(tom):
     if tom == "⚔️ Épico":
         caminho = "camoes_epico.txt"
