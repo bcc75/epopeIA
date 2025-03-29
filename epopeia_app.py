@@ -154,11 +154,11 @@ Poema:
         st.text(poema)
         st.markdown(f"*epopeIA — {data_hora}*")
 
-        with st.spinner("🎧 A gerar voz..."):
+        with st.spinner("🗣️ A gerar voz..."):
             audio_path = gerar_audio_gtts(poema)
             st.audio(audio_path, format="audio/mp3")
             with open(audio_path, "rb") as f:
-                st.download_button("⬇️ Descarregar áudio", f, file_name="camoes_poema.mp3")
+                st.download_button("🎧 Descarregar áudio", f, file_name="camoes_poema.mp3")
 
         caminho_txt = "poema.txt"
         with open(caminho_txt, "w", encoding="utf-8") as f:
