@@ -1,7 +1,7 @@
-streamlit==1.33.0
-Pillow==10.2.0
-transformers==4.36.2
-torch==2.1.0
-accelerate==0.26.1
-openai==1.14.1
-gtts==2.5.1
+streamlit
+Pillow
+transformers
+torch
+accelerate
+openai
+gtts
