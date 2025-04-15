@@ -18,8 +18,8 @@ st.set_page_config(
 st.markdown(
     f'''
     <style>
-        body {{
-            background-image: url("https://github.com/bcc75/epopeIA/blob/main/fundo.jpg");
+        .stApp {{
+            background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/poema.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
