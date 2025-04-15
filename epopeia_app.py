@@ -11,7 +11,7 @@ from datetime import datetime
 
 st.set_page_config(
     page_title="EpopeIA",
-    page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
+    page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/ico-lcamoes.jpeg"
 )
 
 # Adicionar CSS para fundo de pergaminho e estilo dos radiobuttons
