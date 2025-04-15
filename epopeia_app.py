@@ -36,7 +36,7 @@ section[data-testid="stRadio"] label span {
 
 
 st.markdown("""<h1 style="font-size: 2.5rem; font-family: Arial, sans-serif; margin-bottom: 1.5rem;">
-  <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/ico-lcamoes.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
+  <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/icon-lcamoes.png" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   Epope<i>IA</i> — Ver com a Alma
 </h1>
 
