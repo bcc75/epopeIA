@@ -35,12 +35,12 @@ section[data-testid="stRadio"] label span {
 )
 
 
-st.markdown("""<h1 style="font-size: 2rem; font-family: Garamond; margin-bottom: 1.5rem;">
+st.markdown("""<h1 style="font-size: 2rem; font-family: Georgia; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   Epope<i>IA</i> — Ver com a Alma
 </h1>
 
-<div style="font-size: 1.1rem; font-family: Garamond; line-height: 1.7; margin-bottom: 2rem;">
+<div style="font-size: 1.1rem; font-family: Georgia; line-height: 1.7; margin-bottom: 2rem;">
   <p>📸 <strong>Abre o olhar da máquina:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
   <p>✍️ <strong>Ouve com a alma:</strong> da descrição nasce um poema inspirado em <em>Camões</em>.</p>
   <p>📜 <strong>Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
