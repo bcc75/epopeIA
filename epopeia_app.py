@@ -19,7 +19,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/pergam.jpg");
+        background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/poema2.jpg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
