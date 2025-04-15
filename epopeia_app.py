@@ -41,10 +41,10 @@ st.markdown("""<h1 style="font-size: 2.5rem; font-family: Arial, sans-serif; mar
 </h1>
 
 <div style="font-size: 1.1rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p> 📸  <strong> Abre o olhar da máquina:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
-  <p> ✍️  <strong> Ouve com a alma:</strong> da descrição nasce um poema inspirado em <em>Camões</em>.</p>
-  <p> 📜  <strong> Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
-  <p> ⛵️  <strong> Epope<i>IA</i>:</strong> navega entre pixeis e versos, com a alma lusa sempre ao leme.</p>
+  <p> 📸  <strong> - Abre o olhar da máquina:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
+  <p> ✍️  <strong> - Ouve com a alma:</strong> da descrição nasce um poema inspirado em <em>Camões</em>.</p>
+  <p> 📜  <strong> - Poesia assistiva:</strong> uma ponte entre a visão e a palavra, entre o passado e o futuro.</p>
+  <p> ⛵️  <strong> - Epope<i>IA</i>:</strong> navega entre <i>pixels</i> e versos, com a alma lusa sempre ao leme.</p>
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
