@@ -17,13 +17,13 @@ st.set_page_config(
 # Adicionar CSS para fundo de pergaminho e estilo dos radiobuttons
 st.markdown(
     """
-<style>
-.stApp {
-    background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/poema.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
+    <style>
+    .stApp {
+        background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/fundo.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 
 section[data-testid="stRadio"] label span {
     font-size: 1.2rem !important;
