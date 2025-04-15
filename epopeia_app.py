@@ -17,31 +17,23 @@ st.set_page_config(
 # Adicionar CSS para fundo de pergaminho e estilo dos radiobuttons
 st.markdown(
     """
-    <style>
-        .stApp {
-            background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/poema.jpg");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+<style>
+.stApp {
+    background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/poema.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
 
-        section[data-testid="stRadio"] label span {
-            font-size: 1.2rem !important;
-            font-weight: bold;
-        }
-    </style>
+section[data-testid="stRadio"] label span {
+    font-size: 1.2rem !important;
+    font-weight: bold;
+}
+</style>
     """,
     unsafe_allow_html=True
 )
 
-        section[data-testid="stRadio"] label span {{
-            font-size: 1.2rem !important;
-            font-weight: bold;
-        }}
-    </style>
-    ''',
-    unsafe_allow_html=True
-)
 
 st.markdown("""<h1 style="font-size: 2rem; font-family: Helvetica, sans-serif; margin-bottom: 1.5rem;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg" style="height: 42px; vertical-align: middle; margin-right: 12px;">
