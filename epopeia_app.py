@@ -19,7 +19,7 @@ st.markdown(
     f'''
     <style>
         body {{
-            background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/fundo.jpg");
+            background-image: url("https://github.com/bcc75/epopeIA/blob/main/fundo.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
