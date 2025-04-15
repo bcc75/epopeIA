@@ -19,11 +19,15 @@ st.markdown(
     f'''
     <style>
         .stApp {{
-            background-image: url("fundo.jpg");
+            background-image: url("https://raw.githubusercontent.com/bcc75/epopeIA/main/fundo.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }}
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 
         section[data-testid="stRadio"] label span {{
             font-size: 1.2rem !important;
