@@ -45,10 +45,10 @@ st.markdown("""
 </div>
   <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 <div style="font-size: 1.1rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
-  <p> 📸  <strong>  Vê:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
-  <p> ✍️  <strong>  Descobre:</strong> de cada imagem e descrição, surge um poema inspirado em <em>Camões</em>.</p>
+  <p> 📸  <strong>  Explora:</strong> o olhar oculto de cada imagem e deixa que a inteligência artificial o interprete e descreva.</p>
+  <p> ✍️  <strong>  Descobre:</strong> a poesia escondida em cada imagem e descrição, sob o olhar de <em>Camões</em>.</p>
   <p> 📜  <strong>  Cria:</strong> novos mundos de imagens e palavras, onde a memória guia e o sonho avança.</p>
-  <p> ⛵️  <strong>  Epope<i>IA</i>:</strong> navega entre <i>pixels</i> e versos, com a alma lusa sempre ao leme.</p>
+  <p> ⛵️  <strong>  Navega:</strong> entre <i>pixels</i> e versos, com a alma lusa sempre ao leme.</p>
     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
 </div>""", unsafe_allow_html=True)
