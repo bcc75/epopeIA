@@ -35,12 +35,14 @@ section[data-testid="stRadio"] label span {
 )
 
 
-st.markdown("""<h1 style="font-size: 2.5rem; font-family: Arial, sans-serif; margin-bottom: 1.5rem;">
+st.markdown("""
+<h1 style="font-size: 2.5rem; font-family: Arial, sans-serif; margin-bottom: 1.5rem; text-align: center;">
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/icon-lcamoes.png" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   Epope<i>IA</i> — Ver com a Alma
 </h1>
-<div style="font-size: 1.3rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
+<div style="font-size: 1.3rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
   <p><strong>Transformar imagens em poesia camoniana com a Inteligência Artificial</strong></p>
+</div>
   <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 <div style="font-size: 1.1rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
   <p> 📸  <strong>  Vê:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
