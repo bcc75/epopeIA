@@ -39,7 +39,8 @@ st.markdown("""<h1 style="font-size: 2.5rem; font-family: Arial, sans-serif; mar
   <img src="https://raw.githubusercontent.com/bcc75/epopeIA/main/icon-lcamoes.png" style="height: 42px; vertical-align: middle; margin-right: 12px;">
   Epope<i>IA</i> — Ver com a Alma
 </h1>
-
+<div style="font-size: 1.5rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
+  <p><strong>A arte de transformar imagens em poesia camoniana com inteligência artificial.</strong></p>
 <div style="font-size: 1.1rem; font-family: Arial, sans-serif; line-height: 1.7; margin-bottom: 2rem;">
   <p> 📸  <strong>  Vê:</strong> carrega uma imagem e deixa que a inteligência artificial a interprete e descreva.</p>
   <p> ✍️  <strong>  Sente:</strong> de cada imagem e descrição, surge um poema inspirado em <em>Camões</em>.</p>
