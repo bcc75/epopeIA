@@ -130,15 +130,25 @@ if uploaded_file and client:
     excertos = carregar_base(tom)
     exemplos = "\n\n".join(excertos)
 
-    prompt = f"""Tu és Luís de Camões. A tua missão é transformar uma descrição visual num poema com tom {tom.replace("\u2694\ufe0f", "").replace("\ud83c\udf39", "").strip().lower()}, escrito em português do século XVI.
+    prompt = f"""
+Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica e o estilo da sua poesia clássica.
 
-Inspira-te nestes exemplos reais do teu estilo:
+O poema deve seguir a estrutura da *medida nova*, com **versos decassílabos** (10 sílabas métricas), preferencialmente com **acento na 6.ª e na 10.ª sílabas** — versos heroicos.
+
+Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
+
+- Se for épico: usa temas como feitos gloriosos, o mar, a pátria, a mitologia, o engenho e a alma lusitana. O estilo deve ser elevado, solene e grandioso.
+- Se for romântico: foca-te em sentimentos como amor, saudade, ausência, sofrimento, idealização da amada. O tom deve ser íntimo, lírico e comovente.
+
+Deves usar o português clássico do século XVI, com metáforas elaboradas, vocabulário elevado e cadência poética.  
+Se possível, escreve um **soneto completo**: dois quartetos e dois tercetos.  
+Mantém quebras de linha entre estrofes.  
+
+Inspira-te nestes excertos camonianos:
 
 {exemplos}
 
-Agora, escreve um poema com um verso por linha, e com quebras de linha entre estrofes. Usa linguagem clássica, rica, com ritmo, e vocabulário do século XVI.
-
-Descrição:
+Descrição da imagem:
 {descricao}
 
 Poema:
