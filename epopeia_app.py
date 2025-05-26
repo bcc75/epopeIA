@@ -132,18 +132,13 @@ if uploaded_file and client:
 
     prompt = f"""
 Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica e o estilo da sua poesia clássica.
-
 O poema deve seguir a estrutura da *medida nova*, com **versos decassílabos** (10 sílabas métricas), preferencialmente com **acento na 6.ª e na 10.ª sílabas** — versos heroicos.
-
 Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
-
 - Se for épico: usa temas como feitos gloriosos, o mar, a pátria, a mitologia, o engenho e a alma lusitana. O estilo deve ser elevado, solene e grandioso.
 - Se for romântico: foca-te em sentimentos como amor, saudade, ausência, sofrimento, idealização da amada. O tom deve ser íntimo, lírico e comovente.
-
 Deves usar o português clássico do século XVI, com metáforas elaboradas, vocabulário elevado e cadência poética.  
 Se possível, escreve um **soneto completo**: dois quartetos e dois tercetos.  
 Mantém quebras de linha entre estrofes.  
-
 Inspira-te nestes excertos camonianos:
 
 {exemplos}
