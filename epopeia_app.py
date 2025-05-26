@@ -101,7 +101,7 @@ def gerar_titulo_poema(descricao):
             {"role": "user", "content": prompt_titulo}
         ],
         temperature=0.7,
-        max_tokens=20
+        max_tokens=40
     )
     return resposta_titulo.choices[0].message.content.strip()
 
