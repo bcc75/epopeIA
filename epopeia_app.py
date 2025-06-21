@@ -131,14 +131,21 @@ if uploaded_file and client:
     exemplos = "\n\n".join(excertos)
 
     prompt = f"""
-Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica e o estilo da sua poesia clássica.
-O poema deve seguir a estrutura da *medida nova*, com **versos decassílabos** (10 sílabas métricas), preferencialmente com **acento na 6.ª e na 10.ª sílabas** — versos heroicos.
+Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
+O poema deve seguir a *medida nova*, com **versos decassílabos** (10 sílabas métricas), com pausa melódica preferencial na **6.ª sílaba** e acento final na **10.ª sílaba** — os chamados versos heroicos, típicos da lírica camoniana.
 Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
-- Se for épico: usa temas como feitos gloriosos, o mar, a pátria, a mitologia, o engenho e a alma lusitana. O estilo deve ser elevado, solene e grandioso.
-- Se for romântico: foca-te em sentimentos como amor, saudade, ausência, sofrimento, idealização da amada. O tom deve ser íntimo, lírico e comovente.
-Deves usar o português clássico do século XVI, com metáforas elaboradas, vocabulário elevado e cadência poética.  
-Se possível, escreve um **soneto completo**: dois quartetos e dois tercetos.  
-Mantém quebras de linha entre estrofes.  
+- Se for **épico**: evoca feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
+- Se for **romântico**: explora sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
+O poema deve ser um **soneto clássico italiano**, composto por **dois quartetos** e **dois tercetos**, com rimas organizadas preferencialmente segundo o esquema ABBA ABBA CDC DCD. As três primeiras estrofes devem desenvolver uma ideia, como num silogismo aristotélico, e a última estrofe deve apresentar uma **conclusão poética e filosófica**.
+A linguagem deve ser em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Inspira-te nos temas e estilo da lírica camoniana:
+- Amor como força contraditória: causa de prazer e tormento.
+- A mulher como figura idealizada, distante, bela e fatal.
+- Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo.
+- O tempo, o destino, a efemeridade e o desengano.
+- A musicalidade interna do verso, com cuidado na rima, ritmo e pausa.
+Mantém quebras de linha entre as estrofes. O poema deve ser intemporal, universal e belo — como se tivesse sido escrito pelo próprio Camões.
+"""
+ 
 Inspira-te nestes excertos camonianos:
 
 {exemplos}
