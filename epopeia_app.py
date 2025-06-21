@@ -49,7 +49,6 @@ st.markdown("""
   <p> 📜  <strong>  Cria:</strong> novos mundos de imagens e palavras, onde a memória guia e o sonho avança.</p>
   <p> ⛵️  <strong>  Navega:</strong> entre <i>pixels</i> e versos, com a alma lusa sempre ao leme.</p>
     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
@@ -134,10 +133,14 @@ if uploaded_file and client:
 O poema deve seguir a *medida nova*, com **versos decassílabos** (10 sílabas métricas), com pausa melódica preferencial na **6.ª sílaba** e acento final na **10.ª sílaba** — os chamados versos heroicos, típicos da lírica camoniana.
 
 Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
+
 - Se for **épico**: evoca feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
+
 - Se for **romântico**: explora sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
 
-O poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
+---
+
+🟩 **Se o tom for romântico**, o poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
 - **Dois quartetos iniciais** (2 estrofes com 4 versos cada), onde se apresenta e desenvolve o tema;
 - **Dois tercetos finais** (2 estrofes com 3 versos cada), onde se aprofunda e conclui a reflexão.
 
@@ -154,7 +157,17 @@ A estrutura do poema deve obedecer a uma progressão lógica e poética inspirad
 
 A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
 
-A linguagem deve ser em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Evita linguagem moderna ou direta.
+---
+
+🟦 **Se o tom for épico**, podes adotar a estrutura das **estâncias em oitava real**, tal como em *Os Lusíadas*:
+- Cada estância tem **oito versos decassilábicos** com rima **ABABABCC**;
+- Os seis primeiros versos apresentam rimas alternadas (cruzadas) e os dois últimos formam um dístico com rima emparelhada;
+- O poema deve conter entre **2 a 4 estâncias**, consoante a densidade narrativa ou descritiva da imagem;
+- Mantém o tom **narrativo, heroico, solene e evocativo**, com uso de referências mitológicas, marítimas, históricas ou alegóricas.
+
+---
+
+A linguagem deve ser sempre em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Evita qualquer linguagem moderna ou direta.
 
 Inspira-te nos temas e estilo da lírica camoniana:
 - Amor como força contraditória: causa de prazer e tormento;
@@ -162,6 +175,10 @@ Inspira-te nos temas e estilo da lírica camoniana:
 - Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo;
 - O tempo, o destino, a efemeridade e o desengano;
 - A musicalidade interna do verso, com cuidado na rima, ritmo e pausa.
+
+Mantém **quebras de linha claras entre cada estrofe**. O poema deve parecer escrito pelo próprio Camões — erudito, musical, ritmado e intemporal.
+
+---
 
 Inspira-te nestes excertos camonianos:
 
