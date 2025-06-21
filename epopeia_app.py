@@ -1,3 +1,4 @@
+
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -25,15 +26,14 @@ st.markdown(
         background-attachment: fixed;
     }
 
-section[data-testid="stRadio"] label span {
-    font-size: 1.2rem !important;
-    font-weight: bold;
-}
-</style>
+    section[data-testid="stRadio"] label span {
+        font-size: 1.2rem !important;
+        font-weight: bold;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
-
 
 st.markdown("""
 <h1 style="font-size: 2.8rem; font-family: Arial, sans-serif; margin-bottom: 1.5rem; text-align: center;">
@@ -130,8 +130,7 @@ if uploaded_file and client:
     excertos = carregar_base(tom)
     exemplos = "\n\n".join(excertos)
 
-    prompt = f"""
-Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
+    prompt = f"""Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
 O poema deve seguir a *medida nova*, com **versos decassílabos** (10 sílabas métricas), com pausa melódica preferencial na **6.ª sílaba** e acento final na **10.ª sílaba** — os chamados versos heroicos, típicos da lírica camoniana.
 Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
 - Se for **épico**: evoca feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
@@ -143,9 +142,7 @@ A linguagem deve ser em **português clássico do século XVI**, rica em metáfo
 - Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo.
 - O tempo, o destino, a efemeridade e o desengano.
 - A musicalidade interna do verso, com cuidado na rima, ritmo e pausa.
-Mantém quebras de linha entre as estrofes. O poema deve ser intemporal, universal e belo — como se tivesse sido escrito pelo próprio Camões.
-"""
- 
+
 Inspira-te nestes excertos camonianos:
 
 {exemplos}
@@ -153,8 +150,7 @@ Inspira-te nestes excertos camonianos:
 Descrição da imagem:
 {descricao}
 
-Poema:
-"""
+Poema:"""
 
     with st.spinner("✍️ A gerar poema camoniano..."):
         response = client.chat.completions.create(
@@ -185,4 +181,3 @@ Poema:
 
         with open(caminho_txt, "rb") as f:
             st.download_button("📜 Descarregar poema em texto", f, file_name="poema.txt", mime="text/plain")
-"""
