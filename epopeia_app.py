@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from openai import OpenAI
 from gtts import gTTS
@@ -14,7 +14,7 @@ st.set_page_config(
     page_icon="https://raw.githubusercontent.com/bcc75/epopeIA/main/lcamoes2.jpeg"
 )
 
-# Adicionar CSS para fundo de pergaminho e estilo dos radiobuttons
+# Estilo visual
 st.markdown(
     """
     <style>
@@ -24,7 +24,6 @@ st.markdown(
         background-position: center;
         background-attachment: fixed;
     }
-
     section[data-testid="stRadio"] label span {
         font-size: 1.2rem !important;
         font-weight: bold;
@@ -52,12 +51,9 @@ st.markdown("""
 </div>""", unsafe_allow_html=True)
 
 def carregar_base(tom):
-    if tom == "⚔️ Épico":
-        caminho = "camoes_epico.txt"
-    else:
-        caminho = "camoes_lirico.txt"
+    caminho = "camoes_epico.txt" if tom == "⚔️ Épico" else "camoes_lirico.txt"
     with open(caminho, "r", encoding="utf-8") as f:
-        versos = f.read().strip().split("\n\n")
+        versos = f.read().strip().split("EXEMPLO")
     return random.sample(versos, min(3, len(versos)))
 
 openai_key = os.getenv("OPENAI_API_KEY")
@@ -78,8 +74,7 @@ def gerar_descricao(imagem):
     return processor.decode(out[0], skip_special_tokens=True)
 
 def traduzir_descricao(desc):
-    if not desc:
-        return ""
+    if not desc: return ""
     traducao = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -111,7 +106,6 @@ def gerar_audio_gtts(texto):
 
 uploaded_file = st.file_uploader("📷 Carrega uma imagem (JPG/PNG, até 200MB)", type=["jpg", "jpeg", "png"])
 st.caption("📲 No iOS, o áudio pode requerer clique manual. A câmara nem sempre é ativada por segurança do browser.")
-
 tom = st.radio(" 🎭 Escolhe o tom do poema:", ["⚔️ Épico", "🌹 Romântico"], index=1)
 
 if uploaded_file and client:
@@ -119,83 +113,37 @@ if uploaded_file and client:
     st.image(image, caption="Imagem carregada", use_container_width=True)
 
     with st.spinner("🧬 A interpretar a imagem..."):
-        descricao_ingles = gerar_descricao(image)
-        descricao = traduzir_descricao(descricao_ingles)
-        st.success(f"Descrição: *{descricao}*")
+        desc_en = gerar_descricao(image)
+        desc_pt = traduzir_descricao(desc_en)
+        st.success(f"Descrição: *{desc_pt}*")
 
-    titulo_poema = gerar_titulo_poema(descricao)
-
-    excertos = carregar_base(tom)
-    exemplos = "\n\n".join(excertos)
+    titulo_poema = gerar_titulo_poema(desc_pt)
+    exemplos = "\n\n".join(carregar_base(tom))
 
     prompt = f"""Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
-
-O poema deve seguir a *medida nova*, com **versos decassílabos** (10 sílabas métricas), com pausa melódica preferencial na **6.ª sílaba** e acento final na **10.ª sílaba** — os chamados versos heroicos, típicos da lírica camoniana.
-
-Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
-
-- Se for **épico**: evoca feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
-
-- Se for **romântico**: explora sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
-
-**Se o tom for romântico**, o poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
-- **Dois quartetos iniciais** (2 estrofes com 4 versos cada), onde se apresenta e desenvolve o tema;
-- **Dois tercetos finais** (2 estrofes com 3 versos cada), onde se aprofunda e conclui a reflexão.
-
-**Não deves escrever quadras, oitavas ou outro tipo de estrutura. Apenas esta forma fixa:**
-- 1.º quarteto  
-- 2.º quarteto  
-- 1.º terceto  
-- 2.º terceto
-
-A estrutura do poema deve obedecer a uma progressão lógica e poética inspirada na forma silogística aristotélica:
-- **Premissas** nos dois quartetos;
-- **Desenvolvimento** no primeiro terceto;
-- **Conclusão filosófica ou emocional** no segundo terceto.
-
-A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
-
-**Se o tom for épico**, o poema deve ser uma única **estância em oitava real**, tal como em *Os Lusíadas*:
-- Apenas **uma estrofe com 8 versos decassilábicos**;
-- Usa o esquema de rima **ABABABCC**;
-- Os versos devem ter rima cruzada nos seis primeiros e emparelhada nos dois últimos;
-- Mantém um tom **narrativo, heroico, solene e evocativo**, com referências mitológicas, marítimas ou históricas;
-- Inspira-te no estilo elevado de *Os Lusíadas*, mas **sê conciso**: deves escrever apenas **uma única oitava, sem mais estrofes**.
-
----
-
-A linguagem deve ser sempre em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Evita qualquer linguagem moderna ou direta.
-Inspira-te nos temas e estilo da lírica camoniana:
-- Amor como força contraditória: causa de prazer e tormento;
-- A mulher como figura idealizada, distante, bela e fatal;
-- Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo;
-- O tempo, o destino, a efemeridade e o desengano;
-- A musicalidade interna do verso, com cuidado na rima, ritmo e pausa.
-
-Mantém **quebras de linha claras entre cada estrofe**. O poema deve parecer escrito pelo próprio Camões — erudito, musical, ritmado e intemporal.
-
----
-
-Inspira-te nestes excertos camonianos:
+Se for **épico**, escreve apenas **uma oitava real** (8 versos decassilábicos com rima ABABABCC), evocando feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
+Se for **romântico**, escreve um **soneto clássico italiano** (14 versos organizados em 2 quartetos e 2 tercetos) com rima preferencial ABBA ABBA CDC DCD, explorando sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
+A linguagem deve ser em português do século XVI, rica em metáforas, inversões sintáticas e musicalidade.
+Inspira-te nestes exemplos camonianos:
 
 {exemplos}
 
 Descrição da imagem:
-{descricao}
+{desc_pt}
 
 Poema:"""
 
     with st.spinner("✍️ A gerar poema camoniano..."):
-        response = client.chat.completions.create(
+        resposta = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Escreve como Luís de Camões. Usa vocabulário do século XVI, metáforas clássicas, ritmo lírico português. Adapta o tom consoante o pedido."},
+                {"role": "system", "content": "Escreve como Luís de Camões, respeitando forma, métrica e estilo do século XVI."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
             max_tokens=400
         )
-        poema = response.choices[0].message.content.strip()
+        poema = resposta.choices[0].message.content.strip()
         data_hora = datetime.now().strftime("%d/%m/%Y %H:%M")
 
         st.markdown(f"📜 **{titulo_poema}**")
@@ -211,6 +159,5 @@ Poema:"""
         caminho_txt = "poema.txt"
         with open(caminho_txt, "w", encoding="utf-8") as f:
             f.write(f"{titulo_poema}\n\n{poema}\n\nepopeIA — {data_hora}")
-
         with open(caminho_txt, "rb") as f:
             st.download_button("📜 Descarregar poema em texto", f, file_name="poema.txt", mime="text/plain")
