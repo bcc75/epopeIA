@@ -1,4 +1,3 @@
-
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -131,16 +130,37 @@ if uploaded_file and client:
     exemplos = "\n\n".join(excertos)
 
     prompt = f"""Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
+
 O poema deve seguir a *medida nova*, com **versos decassílabos** (10 sílabas métricas), com pausa melódica preferencial na **6.ª sílaba** e acento final na **10.ª sílaba** — os chamados versos heroicos, típicos da lírica camoniana.
+
 Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().lower()}:
 - Se for **épico**: evoca feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
 - Se for **romântico**: explora sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
-O poema deve ser um **soneto clássico italiano**, composto por **dois quartetos** e **dois tercetos**, com rimas organizadas preferencialmente segundo o esquema ABBA ABBA CDC DCD. As três primeiras estrofes devem desenvolver uma ideia, como num silogismo aristotélico, e a última estrofe deve apresentar uma **conclusão poética e filosófica**.
-A linguagem deve ser em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Inspira-te nos temas e estilo da lírica camoniana:
-- Amor como força contraditória: causa de prazer e tormento.
-- A mulher como figura idealizada, distante, bela e fatal.
-- Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo.
-- O tempo, o destino, a efemeridade e o desengano.
+
+O poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
+- **Dois quartetos iniciais** (2 estrofes com 4 versos cada), onde se apresenta e desenvolve o tema;
+- **Dois tercetos finais** (2 estrofes com 3 versos cada), onde se aprofunda e conclui a reflexão.
+
+**Não deves escrever quadras, oitavas ou outro tipo de estrutura. Apenas esta forma fixa:**
+- 1.º quarteto  
+- 2.º quarteto  
+- 1.º terceto  
+- 2.º terceto
+
+A estrutura do poema deve obedecer a uma progressão lógica e poética inspirada na forma silogística aristotélica:
+- **Premissas** nos dois quartetos;
+- **Desenvolvimento** no primeiro terceto;
+- **Conclusão filosófica ou emocional** no segundo terceto.
+
+A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
+
+A linguagem deve ser em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Evita linguagem moderna ou direta.
+
+Inspira-te nos temas e estilo da lírica camoniana:
+- Amor como força contraditória: causa de prazer e tormento;
+- A mulher como figura idealizada, distante, bela e fatal;
+- Dualidades como razão vs. paixão, desejo vs. dever, alma vs. corpo;
+- O tempo, o destino, a efemeridade e o desengano;
 - A musicalidade interna do verso, com cuidado na rima, ritmo e pausa.
 
 Inspira-te nestes excertos camonianos:
