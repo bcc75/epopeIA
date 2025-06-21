@@ -159,11 +159,12 @@ A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
 
 ---
 
-🟦 **Se o tom for épico**, escreve apenas **uma estância em oitava real**, como em *Os Lusíadas*:
-- A estância deve ter **8 versos decassilábicos**, com rima **ABABABCC**;
-- Os seis primeiros versos devem ter rimas alternadas (cruzadas) e os dois últimos uma rima emparelhada (dístico);
-- Mantém o tom **narrativo, heroico e solene**, evocando feitos gloriosos, o mar, a pátria, a mitologia e o engenho humano;
-- A linguagem deve ser elevada, com cadência épica e metáforas clássicas.
+🟦 **Se o tom for épico**, o poema deve ser uma única **estância em oitava real**, tal como em *Os Lusíadas*:
+- Apenas **uma estrofe com 8 versos decassilábicos**;
+- Usa o esquema de rima **ABABABCC**;
+- Os versos devem ter rima cruzada nos seis primeiros e emparelhada nos dois últimos;
+- Mantém um tom **narrativo, heroico, solene e evocativo**, com referências mitológicas, marítimas ou históricas;
+- Inspira-te no estilo elevado de *Os Lusíadas*, mas **sê conciso**: deves escrever apenas **uma única oitava, sem mais estrofes**.
 
 ---
 
