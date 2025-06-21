@@ -138,9 +138,7 @@ Adapta o poema ao tom {tom.replace("⚔️", "").replace("🌹", "").strip().low
 
 - Se for **romântico**: explora sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
 
----
-
-🟩 **Se o tom for romântico**, o poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
+**Se o tom for romântico**, o poema deve ser obrigatoriamente um **soneto clássico italiano**, composto por **14 versos organizados em 4 estrofes fixas**, na seguinte ordem:
 - **Dois quartetos iniciais** (2 estrofes com 4 versos cada), onde se apresenta e desenvolve o tema;
 - **Dois tercetos finais** (2 estrofes com 3 versos cada), onde se aprofunda e conclui a reflexão.
 
@@ -157,9 +155,7 @@ A estrutura do poema deve obedecer a uma progressão lógica e poética inspirad
 
 A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
 
----
-
-🟦 **Se o tom for épico**, o poema deve ser uma única **estância em oitava real**, tal como em *Os Lusíadas*:
+**Se o tom for épico**, o poema deve ser uma única **estância em oitava real**, tal como em *Os Lusíadas*:
 - Apenas **uma estrofe com 8 versos decassilábicos**;
 - Usa o esquema de rima **ABABABCC**;
 - Os versos devem ter rima cruzada nos seis primeiros e emparelhada nos dois últimos;
@@ -169,7 +165,6 @@ A rima deve seguir preferencialmente o esquema **ABBA ABBA CDC DCD**.
 ---
 
 A linguagem deve ser sempre em **português clássico do século XVI**, rica em metáforas elaboradas, antíteses, hipérboles, enumerações e inversões sintáticas. Evita qualquer linguagem moderna ou direta.
-
 Inspira-te nos temas e estilo da lírica camoniana:
 - Amor como força contraditória: causa de prazer e tormento;
 - A mulher como figura idealizada, distante, bela e fatal;
