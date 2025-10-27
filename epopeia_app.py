@@ -122,8 +122,8 @@ if uploaded_file and client:
 
     prompt = f"""Transforma a seguinte descrição visual num poema escrito por Luís de Camões, respeitando rigorosamente a métrica, a forma e o estilo da sua poesia clássica.
 Se for **épico**, escreve apenas uma oitava real, ou seja, 8 versos decassilábicos com rima ABABABCC, isto é, devem ter rima cruzada nos seis primeiros e emparelhada nos dois últimos. Deves escrever apenas uma única oitava, sem mais estrofes, evocando feitos gloriosos, viagens, o mar, a pátria, o engenho humano e a mitologia clássica. O tom deve ser solene, grandioso e heroico, com linguagem elevada e cadência narrativa inspirada em *Os Lusíadas*.
-Se for **lírico**, escreve um **soneto clássico italiano** (14 versos organizados em 4 estrofes fixas com 2 quartetos e 2 tercetos) com rima ABBA ABBA CDC DCD, explorando sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
-A linguagem deve ser em português do século XVI, rica em metáforas, inversões sintáticas e musicalidade.
+Se for **lírico**, escreve um **soneto clássico italiano** com 14 versos organizados em 4 estrofes fixas com 2 quartetos e 2 tercetos, com rima ABBA ABBA CDC DCD, explorando sentimentos como amor idealizado, saudade, abandono, sofrimento e a impossibilidade da felicidade amorosa. Dá ênfase à tensão entre o desejo e a razão, à beleza da mulher inatingível, ao prazer e à dor que o amor provoca.
+A linguagem deve ser em português , rica em metáforas, inversões sintáticas e musicalidade.
 Inspira-te nestes exemplos camonianos:
 
 {exemplos}
