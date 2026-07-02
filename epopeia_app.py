@@ -83,7 +83,7 @@ def carregar_base(tom):
 
 
 openai_key = obter_config("OPENAI_API_KEY")
-OPENAI_MODEL = obter_config("OPENAI_MODEL", "gpt-3.5-turbo")
+OPENAI_MODEL = obter_config("OPENAI_MODEL", "gpt-4o-mini")
 
 client = OpenAI(api_key=openai_key) if openai_key else None
 
@@ -120,15 +120,18 @@ def chamar_openai_chat(
     temperature=0.7,
     max_tokens=300,
     fallback="",
-    tentativas=3
+    tentativas=2
 ):
     """
     Chamada segura à OpenAI.
-    Evita que a app rebente com RateLimitError, falhas temporárias ou timeout.
+    Mostra o erro real no Streamlit para facilitar diagnóstico.
     """
 
     if client is None:
+        st.error("⚠️ Cliente OpenAI não inicializado. Verifica a OPENAI_API_KEY.")
         return fallback
+
+    ultimo_erro = None
 
     for tentativa in range(tentativas):
         try:
@@ -144,7 +147,43 @@ def chamar_openai_chat(
             if conteudo:
                 return conteudo.strip()
 
+            st.warning("A OpenAI respondeu, mas não devolveu conteúdo.")
             return fallback
+
+        except RateLimitError as e:
+            ultimo_erro = e
+
+            if tentativa < tentativas - 1:
+                espera = (2 ** (tentativa + 1)) + random.uniform(0, 1)
+                time.sleep(espera)
+                continue
+
+            st.error("⚠️ Limite/quota da API OpenAI atingido.")
+            st.code(str(e))
+            return fallback
+
+        except (APITimeoutError, APIConnectionError, APIError) as e:
+            ultimo_erro = e
+
+            if tentativa < tentativas - 1:
+                espera = (2 ** (tentativa + 1)) + random.uniform(0, 1)
+                time.sleep(espera)
+                continue
+
+            st.error("⚠️ Erro temporário de ligação ou resposta da API OpenAI.")
+            st.code(str(e))
+            return fallback
+
+        except Exception as e:
+            ultimo_erro = e
+            st.error("⚠️ Erro inesperado na chamada à OpenAI.")
+            st.code(str(e))
+            return fallback
+
+    if ultimo_erro:
+        st.code(str(ultimo_erro))
+
+    return fallback
 
         except RateLimitError:
             # Espera progressiva: 2s, 4s, 8s, com pequeno fator aleatório
